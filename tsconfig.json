@@ -1,12 +1,23 @@
 {
+    "include": ["src", "node_modules/microbundle/index.d.ts"],
+    "exclude": ["dist", "node_modules"],
     "compilerOptions": {
-        "target": "ESNext", // ESNext for modern JavaScript features
-        "module": "NodeNext", // Set to NodeNext to match moduleResolution
-        "moduleResolution": "NodeNext", // Resolves modules like Node.js
-        "outDir": "dist", // Specify where compiled files will go
-        "strict": true, // Enables strict mode for better type safety
-        "esModuleInterop": true, // Ensures compatibility with CommonJS
-        "resolveJsonModule": true, // Allows importing JSON files
-        "skipLibCheck": true // Skips type checking for declaration files
+        "module": "ESNext",
+        "target": "ESNext",
+        "lib": ["dom", "ESNext"],
+        "outDir": "dist",
+        "importHelpers": false,
+        "declaration": true,
+        "sourceMap": true,
+        "strict": true,
+        "noImplicitReturns": false,
+        "noFallthroughCasesInSwitch": true,
+        "noUnusedLocals": true,
+        "noUnusedParameters": true,
+        "moduleResolution": "node",
+        "esModuleInterop": true,
+        "skipLibCheck": true,
+        "forceConsistentCasingInFileNames": true,
+        "resolveJsonModule": true
     }
 }
