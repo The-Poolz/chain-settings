@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Config Viewer</title>
+    <script src="dist/index.js"></script> <!-- Refer to the compiled JS -->
+</head>
+
+<body>
+    <script>
+        // Get chainId from the URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const chainId = parseInt(urlParams.get('chainId') || '');
+
+        if (isNaN(chainId)) {
+            document.getElementById('configOutput').textContent = 'Invalid or missing chainId in URL';
+        } else {
+            // Call loadConfig function (which is async)
+            loadConfig(chainId).then(config => {
+                document.getElementById('configOutput').textContent = JSON.stringify(config, null, 2);
+            }).catch(error => {
+                document.getElementById('configOutput').textContent = `Error: ${error.message}`;
+            });
+        }
+    </script>
+</body>
+
+</html>

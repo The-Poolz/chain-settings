@@ -1,0 +1,29 @@
+{
+  "name": "chain-settings",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc",
+    "deploy": "gh-pages -d dist"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/The-Poolz/chain-settings.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/The-Poolz/chain-settings/issues"
+  },
+  "homepage": "https://github.com/The-Poolz/chain-settings#readme",
+  "dependencies": {
+    "@poolzfinance/reacthelper": "^2.1.10"
+  },
+  "devDependencies": {
+    "gh-pages": "^6.2.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.7.2",
+    "undici": "^6.21.0"
+  }
+}
