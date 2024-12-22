@@ -1,31 +1,50 @@
 name: Deploy to GitHub Pages
 
 on:
-    push:
-        branches:
-            - master # Trigger deployment when pushing to the main branch
+  push:
+    branches:
+      - master # Adjust if your default branch is named differently, e.g., main
 
 jobs:
-    build-and-deploy:
-        runs-on: ubuntu-latest
+  build:
+    runs-on: ubuntu-latest
 
-        steps:
-            - name: Checkout the repository
-              uses: actions/checkout@v4
+    steps:
+      # Step 1: Checkout the repository
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-            - name: Set up Node.js
-              uses: actions/setup-node@v4
-              with:
-                  node-version: 20.9.0
+      # Step 2: Set up Node.js
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
 
-            - name: Install dependencies
-              run: npm install
+      # Step 3: Install dependencies
+      - name: Install dependencies
+        run: npm install
 
-            - name: Build the project
-              run: npm run generate # This will run tsc and generate dist folder
+      # Step 4: Build the project (generate JSON files and copy index.html)
+      - name: Build project
+        run: npm run generate # This should generate the `serve` folder
 
-            - name: Deploy to GitHub Pages
-              uses: peaceiris/actions-gh-pages@v4
-              with:
-                  github_token: ${{ secrets.GITHUB_TOKEN }}
-                  publish_dir: ./dist # The folder that contains the built files
+      # Step 5: Upload static files as artifact
+      - name: Upload artifact for deployment
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./serve # The folder that contains the built files
+
+  deploy:
+    # Deploy job depends on the build job
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    permissions:
+      pages: write
+      id-token: write
+
+    steps:
+      # Step 6: Deploy to GitHub Pages
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
