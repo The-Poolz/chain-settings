@@ -4,13 +4,9 @@ on:
   push:
     branches:
       - master # Adjust if your default branch is named differently, e.g., main
-  issues:
-    types:
-      - opened # Trigger the workflow when an issue is opened
 
 jobs:
   build:
-    if: github.event_name == 'issues' && github.event.issue.body == 'Update' || github.event_name == 'push'
     runs-on: ubuntu-latest
 
     steps:
@@ -52,13 +48,3 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
-
-      # Step 7: Close the issue
-      - name: Close issue
-        if: github.event_name == 'issues'
-        run: |
-          curl -X PATCH \
-            -H "Accept: application/vnd.github+json" \
-            -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
-            https://api.github.com/repos/${{ github.repository }}/issues/${{ github.event.issue.number }} \
-            -d '{"state": "closed"}'
