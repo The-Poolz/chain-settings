@@ -30,7 +30,7 @@ jobs:
       - name: Upload artifact for deployment
         uses: actions/upload-pages-artifact@v3
         with:
-          path: ./serve # The folder that contains the built files
+          path: serve/ # The folder that contains the built files
 
   deploy:
     # Deploy job depends on the build job
