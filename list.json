@@ -1,0 +1,72 @@
+[
+  {
+    "chainId": 1,
+    "fileName": "1.json",
+    "url": "1.json"
+  },
+  {
+    "chainId": 56,
+    "fileName": "56.json",
+    "url": "56.json"
+  },
+  {
+    "chainId": 88,
+    "fileName": "88.json",
+    "url": "88.json"
+  },
+  {
+    "chainId": 97,
+    "fileName": "97.json",
+    "url": "97.json"
+  },
+  {
+    "chainId": 137,
+    "fileName": "137.json",
+    "url": "137.json"
+  },
+  {
+    "chainId": 42161,
+    "fileName": "42161.json",
+    "url": "42161.json"
+  },
+  {
+    "chainId": 43114,
+    "fileName": "43114.json",
+    "url": "43114.json"
+  },
+  {
+    "chainId": 245022934,
+    "fileName": "245022934.json",
+    "url": "245022934.json"
+  },
+  {
+    "chainId": 40,
+    "fileName": "40.json",
+    "url": "40.json"
+  },
+  {
+    "chainId": 3441005,
+    "fileName": "3441005.json",
+    "url": "3441005.json"
+  },
+  {
+    "chainId": 169,
+    "fileName": "169.json",
+    "url": "169.json"
+  },
+  {
+    "chainId": 8453,
+    "fileName": "8453.json",
+    "url": "8453.json"
+  },
+  {
+    "chainId": 1284,
+    "fileName": "1284.json",
+    "url": "1284.json"
+  },
+  {
+    "chainId": 13068200,
+    "fileName": "13068200.json",
+    "url": "13068200.json"
+  }
+]
