@@ -54,9 +54,11 @@ jobs:
         uses: actions/deploy-pages@v4
 
       # Step 7: Close the issue
-      - name: Close Issue
+      - name: Close issue
         if: github.event_name == 'issues'
-        uses: peter-evans/close-issue@v3
-        with:
-          issue-number: ${{ github.event.issue.number }}
-          comment: "Issue processed and auto-closed."
+        run: |
+          curl -X PATCH \
+            -H "Accept: application/vnd.github+json" \
+            -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+            https://api.github.com/repos/${{ github.repository }}/issues/${{ github.event.issue.number }} \
+            -d '{"state": "closed"}'
