@@ -4,9 +4,13 @@ on:
   push:
     branches:
       - master # Adjust if your default branch is named differently, e.g., main
+  issues:
+    types:
+      - opened # Trigger the workflow when an issue is opened
 
 jobs:
   build:
+    if: github.event_name == 'issues' && github.event.issue.body == 'Update' || github.event_name == 'push'
     runs-on: ubuntu-latest
 
     steps:
@@ -24,7 +28,7 @@ jobs:
 
       # Step 4: Build the project (generate JSON files and copy index.html)
       - name: Build project
-        run: npm run generate # This should generate the `serve` folder
+        run: npm run generate # This should generate the `dist` folder
 
       # Step 5: Upload static files as artifact
       - name: Upload artifact for deployment
@@ -48,3 +52,11 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+
+      # Step 7: Close the issue
+      - name: Close Issue
+        if: github.event_name == 'issues'
+        uses: peter-evans/close-issue@v3
+        with:
+          issue-number: ${{ github.event.issue.number }}
+          comment: "Issue processed and auto-closed."
