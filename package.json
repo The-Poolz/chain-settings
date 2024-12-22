@@ -2,11 +2,8 @@
   "name": "chain-settings",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
   "type": "module",
   "scripts": {
-    "build": "tsc",
-    "deploy": "gh-pages -d dist",
     "generate": "node src/generate.js"
   },
   "repository": {
