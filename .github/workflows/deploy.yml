@@ -1,9 +1,9 @@
 name: Deploy to GitHub Pages
 
 on:
-  push:
-    branches:
-      - master # Adjust if your default branch is named differently, e.g., main
+  release:
+    types:
+      - published
 
 jobs:
   build:
