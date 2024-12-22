@@ -1,68 +1,61 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <title>Available Chains</title>
     <script src="https://cdn.jsdelivr.net/npm/jsoneditor@9.10.0/dist/jsoneditor.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/jsoneditor@9.10.0/dist/jsoneditor.min.css" rel="stylesheet">
     <style>
-        #jsoneditor { width: 100%; height: 400px; }
-        ul { list-style-type: none; padding: 0; }
-        li { margin-bottom: 8px; }
-        a { text-decoration: none; color: #007bff; }
-        a:hover { text-decoration: underline; }
+        #jsoneditor {
+            width: 100%;
+            height: 400px;
+            margin-top: 20px;
+        }
+
+        select {
+            margin: 10px 0;
+            padding: 5px;
+        }
+
+        button {
+            padding: 5px 10px;
+            margin-left: 10px;
+        }
     </style>
 </head>
+
 <body>
     <h1>Available Chains</h1>
-    <p>Click a chain name to view its JSON:</p>
-    <ul id="chainList"></ul>
-    
+    <p>Select a chain to view its JSON data:</p>
+
+    <!-- Placeholder for the dropdown options -->
+    <select id="chainDropdown">
+        <!-- This placeholder will be replaced with real options -->
+        {{CHAIN_OPTIONS_PLACEHOLDER}}
+    </select>
+    <button onclick="loadSelectedChain()">Load JSON</button>
+
     <h2>JSON Viewer</h2>
-    <p>Or manually enter a Chain ID:</p>
-    <input type="text" id="chainIdInput" placeholder="Enter Chain ID">
-    <button onclick="fetchJSON()">Load JSON</button>
     <div id="jsoneditor"></div>
 
     <script>
         const container = document.getElementById("jsoneditor");
         const editor = new JSONEditor(container);
 
-        // Fetch the list of available chains from list.json
-        fetch("list.json")
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error(`Error loading list.json: ${response.status}`);
-                }
-                return response.json();
-            })
-            .then(data => {
-                const chainList = document.getElementById("chainList");
-                data.forEach(chain => {
-                    const li = document.createElement("li");
-                    const link = document.createElement("a");
-                    link.href = `${chain.chainId}.json`; // Derive the URL from chainId
-                    link.textContent = chain.name; // Use the name as the label
-                    link.onclick = (e) => {
-                        e.preventDefault(); // Prevent navigation
-                        fetchJSONByUrl(`${chain.chainId}.json`);
-                    };
-                    li.appendChild(link);
-                    chainList.appendChild(li);
-                });
-            })
-            .catch(error => {
-                console.error(error);
-                const errorMessage = document.createElement("p");
-                errorMessage.textContent = "Failed to load chain list.";
-                document.body.appendChild(errorMessage);
-            });
+        const dropdown = document.getElementById("chainDropdown");
 
-        // Fetch JSON by URL and display it in the editor
-        function fetchJSONByUrl(url) {
-            fetch(url)
+        // Load JSON for the selected chain
+        function loadSelectedChain() {
+            const selectedValue = dropdown.value;
+            if (!selectedValue) {
+                alert("Please select a chain.");
+                return;
+            }
+
+            fetch(selectedValue)
                 .then(response => {
                     if (!response.ok) {
-                        throw new Error(`Error: ${response.status}`);
+                        throw new Error(`Failed to fetch ${selectedValue}: ${response.status}`);
                     }
                     return response.json();
                 })
@@ -70,16 +63,11 @@
                     editor.set(data);
                 })
                 .catch(error => {
+                    console.error(error);
                     editor.set({ error: error.message });
                 });
         }
-
-        // Fetch JSON by chain ID entered manually
-        function fetchJSON() {
-            const chainId = document.getElementById("chainIdInput").value;
-            const url = `${chainId}.json`;
-            fetchJSONByUrl(url);
-        }
     </script>
 </body>
+
 </html>

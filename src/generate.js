@@ -24,15 +24,27 @@ AVAILABLE_CHAINS.forEach((data, chainId) => {
     // Add to the list
     fileList.push({
         chainId,
-        name: data.name // Only the name is needed
+        name: data.chainInfo.name // Retrieve chain name from chainInfo
     });
 });
 
-// Create the list.json file
-const listFilePath = path.join(outputDir, "list.json");
-fs.writeFileSync(listFilePath, JSON.stringify(fileList, null, 2));
-console.log(`Generated: ${listFilePath}`);
+// Generate the dropdown options dynamically
+const dropdownOptions = fileList
+    .map(
+        (chain) =>
+            `<option value="${chain.chainId}.json">${chain.name}</option>`
+    )
+    .join("\n");
 
-// Copy index.html to the output directory
-fs.copyFileSync(indexSource, indexDestination);
-console.log(`Copied index.html to ${indexDestination}`);
+// Read the source index.html
+let indexHtml = fs.readFileSync(indexSource, "utf8");
+
+// Replace the placeholder in the index.html
+indexHtml = indexHtml.replace(
+    "{{CHAIN_OPTIONS_PLACEHOLDER}}",
+    `<option value="" disabled selected>Select a chain...</option>\n${dropdownOptions}`
+);
+
+// Write the updated index.html to the output directory
+fs.writeFileSync(indexDestination, indexHtml);
+console.log(`Updated index.html with dropdown options at ${indexDestination}`);
