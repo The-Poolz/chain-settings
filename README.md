@@ -2,6 +2,11 @@
 
 Chain Settings is a simple project designed to dynamically generate and display JSON configurations for various blockchain chains. This project uses Node.js and GitHub Pages to automate deployments and provide a user-friendly interface to interact with the chain settings.
 
+## URL
+
+https://the-poolz.github.io/chain-settings/
+
+
 ## Features
 
 - **Dynamic JSON File Generation**: Generates JSON files for each available blockchain chain.
