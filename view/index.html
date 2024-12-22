@@ -16,6 +16,11 @@
             margin: 10px 0;
             padding: 5px;
         }
+
+        a {
+            margin-left: 10px;
+            display: inline-block;
+        }
     </style>
 </head>
 
@@ -28,6 +33,7 @@
         <!-- This placeholder will be replaced with real options -->
         {{CHAIN_OPTIONS_PLACEHOLDER}}
     </select>
+    <a id="jsonLink" href="#" target="_blank" style="display:none;">Open JSON File</a>
 
     <h2>JSON Viewer</h2>
     <div id="jsoneditor"></div>
@@ -37,6 +43,7 @@
         const editor = new JSONEditor(container);
 
         const dropdown = document.getElementById("chainDropdown");
+        const jsonLink = document.getElementById("jsonLink");
 
         // Load JSON for the selected chain
         function loadSelectedChain() {
@@ -46,6 +53,11 @@
                 return;
             }
 
+            // Update the link to the JSON file
+            jsonLink.href = selectedValue;
+            jsonLink.style.display = "inline-block";
+
+            // Fetch and display the JSON data
             fetch(selectedValue)
                 .then(response => {
                     if (!response.ok) {
