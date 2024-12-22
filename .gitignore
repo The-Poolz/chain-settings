@@ -13,3 +13,5 @@ dist
 
 temp.zip
 yarn.lock
+# to serve the app
+/serve
