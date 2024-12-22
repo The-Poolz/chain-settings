@@ -20,7 +20,7 @@ jobs:
 
       # Step 3: Install latest version of poolzfinance/reacthelper
       - name: Install dependencies
-        run: npm install @poolzfinance/reacthelper
+        run: npm install poolzfinance/reacthelper
 
       # Step 4: Build the project (generate JSON files and copy index.html)
       - name: Build project
