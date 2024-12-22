@@ -1,16 +1,24 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>JSON Viewer</title>
+    <title>Available Chains</title>
     <script src="https://cdn.jsdelivr.net/npm/jsoneditor@9.10.0/dist/jsoneditor.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/jsoneditor@9.10.0/dist/jsoneditor.min.css" rel="stylesheet">
     <style>
         #jsoneditor { width: 100%; height: 400px; }
+        ul { list-style-type: none; padding: 0; }
+        li { margin-bottom: 8px; }
+        a { text-decoration: none; color: #007bff; }
+        a:hover { text-decoration: underline; }
     </style>
 </head>
 <body>
-    <h1>JSON Viewer</h1>
-    <p>Enter Chain ID to view data:</p>
+    <h1>Available Chains</h1>
+    <p>Click a chain name to view its JSON:</p>
+    <ul id="chainList"></ul>
+    
+    <h2>JSON Viewer</h2>
+    <p>Or manually enter a Chain ID:</p>
     <input type="text" id="chainIdInput" placeholder="Enter Chain ID">
     <button onclick="fetchJSON()">Load JSON</button>
     <div id="jsoneditor"></div>
@@ -19,10 +27,38 @@
         const container = document.getElementById("jsoneditor");
         const editor = new JSONEditor(container);
 
-        function fetchJSON() {
-            const chainId = document.getElementById("chainIdInput").value;
-            const url = `${chainId}.json`;
+        // Fetch the list of available chains from list.json
+        fetch("list.json")
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`Error loading list.json: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                const chainList = document.getElementById("chainList");
+                data.forEach(chain => {
+                    const li = document.createElement("li");
+                    const link = document.createElement("a");
+                    link.href = chain.url;
+                    link.textContent = chain.name;
+                    link.onclick = (e) => {
+                        e.preventDefault(); // Prevent navigation
+                        fetchJSONByUrl(chain.url);
+                    };
+                    li.appendChild(link);
+                    chainList.appendChild(li);
+                });
+            })
+            .catch(error => {
+                console.error(error);
+                const errorMessage = document.createElement("p");
+                errorMessage.textContent = "Failed to load chain list.";
+                document.body.appendChild(errorMessage);
+            });
 
+        // Fetch JSON by URL and display it in the editor
+        function fetchJSONByUrl(url) {
             fetch(url)
                 .then(response => {
                     if (!response.ok) {
@@ -36,6 +72,13 @@
                 .catch(error => {
                     editor.set({ error: error.message });
                 });
+        }
+
+        // Fetch JSON by chain ID entered manually
+        function fetchJSON() {
+            const chainId = document.getElementById("chainIdInput").value;
+            const url = `${chainId}.json`;
+            fetchJSONByUrl(url);
         }
     </script>
 </body>
