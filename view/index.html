@@ -21,7 +21,7 @@
 
         function fetchJSON() {
             const chainId = document.getElementById("chainIdInput").value;
-            const url = `static-data/${chainId}.json`;
+            const url = `dist/${chainId}.json`;
 
             fetch(url)
                 .then(response => {

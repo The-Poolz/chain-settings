@@ -18,9 +18,9 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v4
 
-      # Step 3: Install dependencies
+      # Step 3: Install latest version of poolzfinance/reacthelper
       - name: Install dependencies
-        run: npm install
+        run: npm install @poolzfinance/reacthelper
 
       # Step 4: Build the project (generate JSON files and copy index.html)
       - name: Build project
