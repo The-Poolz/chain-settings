@@ -24,9 +24,7 @@ AVAILABLE_CHAINS.forEach((data, chainId) => {
     // Add to the list
     fileList.push({
         chainId,
-        name: data.name,
-        fileName,
-        url: fileName,
+        name: data.name // Only the name is needed
     });
 });
 

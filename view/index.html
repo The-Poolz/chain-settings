@@ -40,11 +40,11 @@
                 data.forEach(chain => {
                     const li = document.createElement("li");
                     const link = document.createElement("a");
-                    link.href = chain.url;
-                    link.textContent = chain.name;
+                    link.href = `${chain.chainId}.json`; // Derive the URL from chainId
+                    link.textContent = chain.name; // Use the name as the label
                     link.onclick = (e) => {
                         e.preventDefault(); // Prevent navigation
-                        fetchJSONByUrl(chain.url);
+                        fetchJSONByUrl(`${chain.chainId}.json`);
                     };
                     li.appendChild(link);
                     chainList.appendChild(li);
